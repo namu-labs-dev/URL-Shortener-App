@@ -1,34 +1,38 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import React, { useState } from 'react';
-import AddLink from '../components/AddLink';
+import React, { useState } from 'react'
+import AddLink from '../components/AddLink'
+import { QRCodeSVG } from 'qrcode.react'
 
 const Home: NextPage = () => {
+  const [id, setId] = useState('')
 
-  const [id, setId] = useState("");
-
-  const baseUrl = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
+  const baseUrl =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : ''
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-slate-400">
+    <div className="flex h-screen w-screen items-center justify-center bg-slate-400">
       <Head>
         <title>Url Shortener</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="max-w-2xl bg-white rounded-md w-full p-6 ">
-
-        <h1 className='font-semibold text-2xl'>URL Shortener</h1>
+      <div className="w-full max-w-2xl rounded-md bg-white p-6 ">
+        <h1 className="text-2xl font-semibold">URL Shortener</h1>
         <AddLink id={id} setId={setId} />
 
         {id && (
-          <div className='bg-fuchsia-50 flex items-center justify-center w-full text-xl text-cyan-800 mt-4 p-3 rounded-sm'>
-            <a href={`${baseUrl}/${id}`} target="_blank">{`${baseUrl}/${id}`}</a>
+          <div className="mt-4 flex w-full flex-col items-center justify-center rounded-sm bg-fuchsia-50 p-3 text-xl text-cyan-800">
+            <a
+              href={`${baseUrl}/${id}`}
+              target="_blank"
+            >{`${baseUrl}/${id}`}</a>
+            <QRCodeSVG value={`${baseUrl}/${id}`} />
           </div>
         )}
-
       </div>
-
     </div>
   )
 }
